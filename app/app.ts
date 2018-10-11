@@ -8,9 +8,19 @@ import {TodoStore, Todo} from './services/store';
 export default class TodoApp {
 	todoStore: TodoStore;
 	newTodoText = '';
+	currentDate = new Date().toISOString();
 
 	constructor(todoStore: TodoStore) {
 		this.todoStore = todoStore;
+
+        $('#date-container .input-group.date').datepicker({
+            keyboardNavigation: false,
+            toggleActive: true,
+            todayBtn: true,
+            todayHighlight: true,
+            keepEmptyValues: false,
+            autoClose: true
+        });
 	}
 
 	stopEditing(todo: Todo, editedTitle: string) {

@@ -12,7 +12,16 @@ var store_1 = require('./services/store');
 var TodoApp = (function () {
     function TodoApp(todoStore) {
         this.newTodoText = '';
+        this.currentDate = new Date().toISOString();
         this.todoStore = todoStore;
+        $('#date-container .input-group.date').datepicker({
+            keyboardNavigation: false,
+            toggleActive: true,
+            todayBtn: true,
+            todayHighlight: true,
+            keepEmptyValues: false,
+            autoClose: true
+        });
     }
     TodoApp.prototype.stopEditing = function (todo, editedTitle) {
         todo.title = editedTitle;

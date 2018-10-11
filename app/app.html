@@ -1,8 +1,29 @@
 <section class="todoapp">
 	<header class="header">
 		<h1>todos</h1>
-		<input class="new-todo" placeholder="What needs to be done?" autofocus="" [(ngModel)]="newTodoText" (keyup.enter)="addTodo()">
 	</header>
+	<section>
+		<form class="form-inline add-task-container">
+			<div class="form-group">
+				<input class="form-control new-todo" placeholder="What needs to be done?" autofocus="" [(ngModel)]="newTodoText">
+			</div>
+			<div id="date-container" class="form-group">
+				<div class="input-group date">
+					<input type="text" class="form-control" [(ngModel)]="currentDate"><span class="input-group-addon">
+					<i class="glyphicon glyphicon-th"></i>
+				</span>
+				</div>
+			</div>
+			<select class="form-control">
+				<option>P1</option>
+				<option>P2</option>
+				<option>P3</option>
+			</select>
+			<button type="submit" class="btn btn-default" (click)="addTodo()">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</form>
+	</section>
 	<section class="main" *ngIf="todoStore.todos.length > 0">
 		<input id="toggle-all" class="toggle-all" type="checkbox" *ngIf="todoStore.todos.length" #toggleall [checked]="todoStore.allCompleted()" (click)="todoStore.setAllTo(toggleall.checked)">
 		<ul class="todo-list">
