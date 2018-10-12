@@ -7,8 +7,9 @@ import {TodoStore, Todo} from './services/store';
 })
 export default class TodoApp {
 	todoStore: TodoStore;
-	newTodoText = '';
-	currentDate = new Date().toISOString();
+    newTodoText = '';
+    selectedDate = new Date().toLocaleDateString();
+    selectedPriority = 1;
 
 	constructor(todoStore: TodoStore) {
 		this.todoStore = todoStore;
@@ -30,6 +31,15 @@ export default class TodoApp {
 
 	cancelEditingTodo(todo: Todo) {
 		todo.editing = false;
+	}
+
+    getPriorityText(priority) {
+		switch(priority.toString()) {
+			case '1' : return 'Very High';
+            case '2' : return 'High';
+            case '3' : return 'Medium';
+            case '4' : return 'Low';
+		}
 	}
 
 	updateEditingTodo(todo: Todo, editedTitle: string) {
@@ -61,7 +71,7 @@ export default class TodoApp {
 
 	addTodo() {
 		if (this.newTodoText.trim().length) {
-			this.todoStore.add(this.newTodoText);
+			this.todoStore.add(this.newTodoText, this.selectedDate, this.selectedPriority);
 			this.newTodoText = '';
 		}
 	}

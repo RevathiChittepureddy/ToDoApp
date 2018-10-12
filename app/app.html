@@ -1,44 +1,49 @@
 <section class="todoapp">
 	<header class="header">
-		<h1>todos</h1>
+		<h1>T-o-Do</h1>
 	</header>
-	<section>
-		<form class="form-inline add-task-container">
-			<div class="form-group">
-				<input class="form-control new-todo" placeholder="What needs to be done?" autofocus="" [(ngModel)]="newTodoText">
-			</div>
-			<div id="date-container" class="form-group">
-				<div class="input-group date">
-					<input type="text" class="form-control" [(ngModel)]="currentDate"><span class="input-group-addon">
-					<i class="glyphicon glyphicon-th"></i>
-				</span>
-				</div>
-			</div>
-			<select class="form-control">
-				<option>P1</option>
-				<option>P2</option>
-				<option>P3</option>
-			</select>
-			<button type="submit" class="btn btn-default" (click)="addTodo()">
-				<span class="glyphicon glyphicon-plus"></span>
-			</button>
-		</form>
-	</section>
-	<section class="main" *ngIf="todoStore.todos.length > 0">
-		<input id="toggle-all" class="toggle-all" type="checkbox" *ngIf="todoStore.todos.length" #toggleall [checked]="todoStore.allCompleted()" (click)="todoStore.setAllTo(toggleall.checked)">
-		<ul class="todo-list">
-			<li *ngFor="#todo of todoStore.todos" [class.completed]="todo.completed" [class.editing]="todo.editing">
-				<div class="view">
-					<input class="toggle" type="checkbox" (click)="toggleCompletion(todo)" [checked]="todo.completed">
-					<label (dblclick)="editTodo(todo)">{{todo.title}}</label>
-					<button class="destroy" (click)="remove(todo)"></button>
-				</div>
-				<input class="edit" *ngIf="todo.editing" [value]="todo.title" #editedtodo (blur)="stopEditing(todo, editedtodo.value)" (keyup.enter)="updateEditingTodo(todo, editedtodo.value)" (keyup.escape)="cancelEditingTodo(todo)">
-			</li>
-		</ul>
-	</section>
-	<footer class="footer" *ngIf="todoStore.todos.length > 0">
-		<span class="todo-count"><strong>{{todoStore.getRemaining().length}}</strong> {{todoStore.getRemaining().length == 1 ? 'item' : 'items'}} left</span>
-		<button class="clear-completed" *ngIf="todoStore.getCompleted().length > 0" (click)="removeCompleted()">Clear completed</button>
-	</footer>
+    <div class="todo-content-container">
+        <section class="app-content">
+            <form class="form-inline add-task-container">
+                <div class="form-group">
+                    <input class="form-control input-task new-todo" placeholder="What needs to be done?" autofocus="" [(ngModel)]="newTodoText">
+                </div>
+                <div id="date-container" class="form-group">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" [(ngModel)]="selectedDate"><span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                    </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="selectedPriority">
+                        <option [value]="1" [selected]="selectedPriority === 1">Very High</option>
+                        <option [value]="2" [selected]="selectedPriority === 2">High</option>
+                        <option [value]="3" [selected]="selectedPriority === 3">Medium</option>
+                        <option [value]="4" [selected]="selectedPriority === 4">Low</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="addTodo()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </form>
+        </section>
+        <section class="main" *ngIf="todoStore.todos.length > 0">
+            <input id="toggle-all" class="toggle-all" type="checkbox" *ngIf="todoStore.todos.length" #toggleall [checked]="todoStore.allCompleted()" (click)="todoStore.setAllTo(toggleall.checked)">
+            <ul class="todo-list">
+                <li *ngFor="#todo of todoStore.todos" [class.completed]="todo.completed" [class.editing]="todo.editing">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" (click)="toggleCompletion(todo)" [checked]="todo.completed">
+                        <label (dblclick)="editTodo(todo)">{{todo.title}} - <span class="small-text">{{todo.dueDate}}</span> - <span class="small-text">{{getPriorityText(todo.priority)}}</span></label>
+                        <button class="destroy" (click)="remove(todo)"></button>
+                    </div>
+                    <input class="edit" *ngIf="todo.editing" [value]="todo.title" #editedtodo (blur)="stopEditing(todo, editedtodo.value)" (keyup.enter)="updateEditingTodo(todo, editedtodo.value)" (keyup.escape)="cancelEditingTodo(todo)">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer" *ngIf="todoStore.todos.length > 0">
+            <span class="todo-count"><strong>{{todoStore.getRemaining().length}}</strong> {{todoStore.getRemaining().length == 1 ? 'item' : 'items'}} left</span>
+            <button class="clear-completed" *ngIf="todoStore.getCompleted().length > 0" (click)="removeCompleted()">Clear completed</button>
+        </footer>
+    </div>
 </section>

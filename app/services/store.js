@@ -1,8 +1,10 @@
 var Todo = (function () {
-    function Todo(title) {
+    function Todo(title, dueDate, priority) {
         this.completed = false;
         this.editing = false;
         this.title = title.trim();
+        this.dueDate = dueDate;
+        this.priority = priority;
     }
     Object.defineProperty(Todo.prototype, "title", {
         get: function () {
@@ -10,6 +12,26 @@ var Todo = (function () {
         },
         set: function (value) {
             this._title = value.trim();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Todo.prototype, "dueDate", {
+        get: function () {
+            return this._dueDate;
+        },
+        set: function (value) {
+            this._dueDate = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Todo.prototype, "priority", {
+        get: function () {
+            return this._priority;
+        },
+        set: function (value) {
+            this._priority = value;
         },
         enumerable: true,
         configurable: true
@@ -22,7 +44,7 @@ var TodoStore = (function () {
         var persistedTodos = JSON.parse(localStorage.getItem('angular2-todos') || '[]');
         // Normalize back into classes
         this.todos = persistedTodos.map(function (todo) {
-            var ret = new Todo(todo._title);
+            var ret = new Todo(todo._title, todo._dueDate, todo._priority);
             ret.completed = todo.completed;
             return ret;
         });
@@ -58,8 +80,8 @@ var TodoStore = (function () {
         this.todos.splice(this.todos.indexOf(todo), 1);
         this.updateStore();
     };
-    TodoStore.prototype.add = function (title) {
-        this.todos.push(new Todo(title));
+    TodoStore.prototype.add = function (title, date, priority) {
+        this.todos.push(new Todo(title, date, priority));
         this.updateStore();
     };
     return TodoStore;

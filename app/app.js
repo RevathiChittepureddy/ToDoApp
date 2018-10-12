@@ -12,7 +12,8 @@ var store_1 = require('./services/store');
 var TodoApp = (function () {
     function TodoApp(todoStore) {
         this.newTodoText = '';
-        this.currentDate = new Date().toISOString();
+        this.selectedDate = new Date().toLocaleDateString();
+        this.selectedPriority = 1;
         this.todoStore = todoStore;
         $('#date-container .input-group.date').datepicker({
             keyboardNavigation: false,
@@ -29,6 +30,14 @@ var TodoApp = (function () {
     };
     TodoApp.prototype.cancelEditingTodo = function (todo) {
         todo.editing = false;
+    };
+    TodoApp.prototype.getPriorityText = function (priority) {
+        switch (priority.toString()) {
+            case '1': return 'Very High';
+            case '2': return 'High';
+            case '3': return 'Medium';
+            case '4': return 'Low';
+        }
     };
     TodoApp.prototype.updateEditingTodo = function (todo, editedTitle) {
         editedTitle = editedTitle.trim();
@@ -52,7 +61,7 @@ var TodoApp = (function () {
     };
     TodoApp.prototype.addTodo = function () {
         if (this.newTodoText.trim().length) {
-            this.todoStore.add(this.newTodoText);
+            this.todoStore.add(this.newTodoText, this.selectedDate, this.selectedPriority);
             this.newTodoText = '';
         }
     };
